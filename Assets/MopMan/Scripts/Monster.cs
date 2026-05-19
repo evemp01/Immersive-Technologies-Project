@@ -38,11 +38,15 @@ public class MonsterPatrol : MonoBehaviour
     private int currentWaypoint = -1;
     private int previousWaypoint = -1;
 
+    NetworkContext context;
+
     void Start()
     {
         startingLives = playerLives; // Save initial lives for resets
         agent = GetComponent<NavMeshAgent>();
         agent.speed = patrolSpeed;
+
+        context = NetworkContext.Register(this);
 
         if (waypoints.Length >= 3)
         {
@@ -52,6 +56,13 @@ public class MonsterPatrol : MonoBehaviour
 
     void Update()
     {
+        var networkScene = context.Scene;
+        var allComponents = networkScene.GetAllComponents();
+        foreach (var comp in allComponents)
+        {
+            Debug.Log("Network Component: " + comp.GetType().Name);
+        }
+
         // 1. DYNAMIC PLAYER SEARCH 
         searchTimer -= Time.deltaTime;
         if (searchTimer <= 0f)
