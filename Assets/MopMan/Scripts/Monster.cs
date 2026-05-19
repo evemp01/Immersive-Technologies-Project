@@ -1,6 +1,8 @@
 using UnityEngine;
 using UnityEngine.AI;
 using System.Collections.Generic;
+using Ubiq.Messaging;
+using Ubiq.Rooms;
 
 public class MonsterPatrol : MonoBehaviour
 {
@@ -39,14 +41,21 @@ public class MonsterPatrol : MonoBehaviour
     private int previousWaypoint = -1;
 
     NetworkContext context;
-
+    RoomClient roomClient;
+    bool isHost = false;
     void Start()
     {
         startingLives = playerLives; // Save initial lives for resets
         agent = GetComponent<NavMeshAgent>();
         agent.speed = patrolSpeed;
 
-        context = NetworkContext.Register(this);
+        context = NetworkScene.Register(this);
+        roomClient = NetworkScene.Find(this).GetComponentInChildren<RoomClient>();
+        
+        roomClient.OnPeerAdded.AddListener(OnPeerAdded);
+        roomClient.OnPeerRemoved.AddListener(OnPeerRemoved);
+        roomClient.OnJoinedRoom.AddListener(OnJoinedRoom);
+        
 
         if (waypoints.Length >= 3)
         {
@@ -54,14 +63,37 @@ public class MonsterPatrol : MonoBehaviour
         }
     }
 
+void OnJoinedRoom(IRoom room)
+{
+    // Se entro e non ci sono altri peer, sono il primo = host
+    var peers = new List<IPeer>(roomClient.Peers);
+    isHost = peers.Count == 0;
+    Debug.Log($"Joined room. Sono host? {isHost}");
+}
+
+void OnPeerAdded(IPeer peer)
+{
+    // Se arriva qualcuno e io sono già host, rimango host
+    Debug.Log($"Peer aggiunto: {peer.uuid}");
+}
+
+void OnPeerRemoved(IPeer peer)
+{
+    // Se l'host se ne va, il primo peer rimasto diventa host
+    var peers = new List<IPeer>(roomClient.Peers);
+    isHost = peers.Count == 0; // Sono l'unico rimasto
+    Debug.Log($"Sono host? {isHost}");
+}
+
+    public void ProcessMessage (ReferenceCountedSceneGraphMessage msg)
+    {
+        
+    }
+
     void Update()
     {
-        var networkScene = context.Scene;
-        var allComponents = networkScene.GetAllComponents();
-        foreach (var comp in allComponents)
-        {
-            Debug.Log("Network Component: " + comp.GetType().Name);
-        }
+       var found = FindObjectsOfType<MonsterPatrol>();
+Debug.Log($"Trovati: {found.Length}");
 
         // 1. DYNAMIC PLAYER SEARCH 
         searchTimer -= Time.deltaTime;
