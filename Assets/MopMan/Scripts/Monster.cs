@@ -63,27 +63,20 @@ public class MonsterPatrol : MonoBehaviour
         }
     }
 
-void OnJoinedRoom(IRoom room)
+void CheckHost()
 {
-    // Se entro e non ci sono altri peer, sono il primo = host
-    var peers = new List<IPeer>(roomClient.Peers);
-    isHost = peers.Count == 0;
-    Debug.Log($"Joined room. Sono host? {isHost}");
-}
-
-void OnPeerAdded(IPeer peer)
-{
-    // Se arriva qualcuno e io sono già host, rimango host
-    Debug.Log($"Peer aggiunto: {peer.uuid}");
-}
-
-void OnPeerRemoved(IPeer peer)
-{
-    // Se l'host se ne va, il primo peer rimasto diventa host
-    var peers = new List<IPeer>(roomClient.Peers);
-    isHost = peers.Count == 0; // Sono l'unico rimasto
+    var allUuids = new List<string>();
+    allUuids.Add(roomClient.Me.uuid);
+    foreach (var p in roomClient.Peers) allUuids.Add(p.uuid);
+    
+    allUuids.Sort();
+    isHost = allUuids[0] == roomClient.Me.uuid;
+    
     Debug.Log($"Sono host? {isHost}");
 }
+void OnJoinedRoom(IRoom room) => CheckHost();
+void OnPeerAdded(IPeer peer) => CheckHost();
+void OnPeerRemoved(IPeer peer) => CheckHost();
 
     public void ProcessMessage (ReferenceCountedSceneGraphMessage msg)
     {
