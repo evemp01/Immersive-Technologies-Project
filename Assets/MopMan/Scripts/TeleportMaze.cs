@@ -1,14 +1,48 @@
 using UnityEngine;
 using Ubiq.Avatars;
+
 public class Teleport : MonoBehaviour
 {
+    // Creiamo un menu a tendina per l'Inspector
+    public enum TeleportRole { ToMazePlayer, ToDesktopPlayer }
+
+    [Header("Teleport Settings")]
     public Transform target;
+    
+    [Tooltip("Choose the role assigned to the player using this teleport")]
+    public TeleportRole roleToAssign;
+
     void OnTriggerEnter(Collider other)
     {   
-        if (other.CompareTag("Player"))
+        // Permettiamo il teletrasporto a chiunque sia un giocatore (anche se ha già cambiato ruolo)
+        if (other.CompareTag("Player") || other.CompareTag("DesktopPlayer") || other.CompareTag("MainCamera"))
         {
-            other.transform.root.position = target.position;
+            Transform playerRoot = other.transform.root;
+
+            // 1. ASSEGNAZIONE DINAMICA DEL RUOLO
+            if (roleToAssign == TeleportRole.ToMazePlayer)
+            {
+                playerRoot.tag = "Player";
+                
+                // Per sicurezza con la VR, taggiamo anche l'oggetto specifico che ha toccato il trigger
+                other.gameObject.tag = "Player"; 
+            }
+            else if (roleToAssign == TeleportRole.ToDesktopPlayer)
+            {
+                playerRoot.tag = "DesktopPlayer";
+                other.gameObject.tag = "DesktopPlayer";
+            }
+
+            // 2. TELETRASPORTO SICURO PER VR 
+            // (Disabilitare il CharacterController per un istante evita bug di collisione durante il teletrasporto)
+            CharacterController cc = playerRoot.GetComponent<CharacterController>();
+            if (cc != null) cc.enabled = false;
+
+            playerRoot.position = target.position;
+
+            if (cc != null) cc.enabled = true;
+            
+            Debug.Log("Player teleported and assigned role: " + roleToAssign.ToString());
         }
     }
-
 }

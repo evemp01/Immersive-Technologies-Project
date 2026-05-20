@@ -5,12 +5,15 @@ EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Scenes:
-  - enabled: 1
+  - enabled: 0
     path: Assets/MopMan/Scenes/MazePrototype.unity
     guid: 99c9720ab356a0642a771bea13969a05
   - enabled: 0
     path: Assets/Samples/Ubiq/1.0.0-pre.16/Demo (XRI)/Demo.unity
     guid: 2de505d34345ab340bdde30d419b24eb
+  - enabled: 1
+    path: Assets/MopMan/Scenes/Maze.unity
+    guid: 59389671b05ca45498aa698f3dc02c26
   m_configObjects:
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 052faaac586de48259a63d0c4782560b, type: 3}
     com.unity.xr.management.loader_settings: {fileID: 11400000, guid: 8298a730d294b5b428dcef49f44ff506, type: 2}
