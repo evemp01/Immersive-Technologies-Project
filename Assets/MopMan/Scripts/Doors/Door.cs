@@ -29,7 +29,7 @@ public class Door : MonoBehaviour
 
     void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag("Player"))
+        if (other.CompareTag("Player") || other.CompareTag("DesktopPlayer"))
         {
             // Open position is the start position plus the offset
             targetPosition = closedPosition + openOffset;
@@ -38,7 +38,7 @@ public class Door : MonoBehaviour
 
     void OnTriggerExit(Collider other)
     {
-        if (other.CompareTag("Player"))
+        if (other.CompareTag("Player") || other.CompareTag("DesktopPlayer"))
         {
             targetPosition = closedPosition;
         }

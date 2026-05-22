@@ -40,6 +40,12 @@ public class Teleport : MonoBehaviour
 
             playerRoot.position = target.position;
 
+            playerRoot.position = target.position + new Vector3(1f, 0f, 0f);
+
+            // MODIFICA 2: Orient the player towards the negative X axis
+            // Vector3.left is a shortcut for new Vector3(-1, 0, 0)
+            playerRoot.rotation = Quaternion.LookRotation(Vector3.left);
+
             if (cc != null) cc.enabled = true;
             
             Debug.Log("Player teleported and assigned role: " + roleToAssign.ToString());
