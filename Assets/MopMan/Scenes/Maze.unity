@@ -2411,7 +2411,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2983488650028113151, guid: 9d540ab8d3bb0ad9784bc204dc74a1c8, type: 3}
       propertyPath: m_Name
-      value: key
+      value: Key
       objectReference: {fileID: 0}
     - target: {fileID: 2983488650028113151, guid: 9d540ab8d3bb0ad9784bc204dc74a1c8, type: 3}
       propertyPath: m_Layer
@@ -15582,8 +15582,8 @@ GameObject:
   - component: {fileID: 623669554}
   - component: {fileID: 623669558}
   - component: {fileID: 623669557}
-  - component: {fileID: 623669556}
   - component: {fileID: 623669555}
+  - component: {fileID: 623669559}
   m_Layer: 7
   m_Name: TelepadLobby
   m_TagString: Untagged
@@ -15629,20 +15629,6 @@ CapsuleCollider:
   m_Height: 2
   m_Direction: 1
   m_Center: {x: 0.000000059604645, y: 1, z: -0.00000008940697}
---- !u!114 &623669556
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 623669553}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6b0962ec9d5271487b81de3e2710cfb3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::Teleport
-  target: {fileID: 1252396818}
-  roleToAssign: 0
 --- !u!23 &623669557
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -15700,6 +15686,20 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 623669553}
   m_Mesh: {fileID: 10206, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &623669559
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 623669553}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 65fa3290a37e4da47b8cc89a5898f676, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::TeleportLobby
+  target: {fileID: 1252396818}
+  roleToAssign: 0
 --- !u!1001 &626413562
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -23473,7 +23473,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2983488650028113151, guid: 9d540ab8d3bb0ad9784bc204dc74a1c8, type: 3}
       propertyPath: m_Name
-      value: key (2)
+      value: Key
       objectReference: {fileID: 0}
     - target: {fileID: 2983488650028113151, guid: 9d540ab8d3bb0ad9784bc204dc74a1c8, type: 3}
       propertyPath: m_Layer
@@ -34503,7 +34503,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2983488650028113151, guid: 9d540ab8d3bb0ad9784bc204dc74a1c8, type: 3}
       propertyPath: m_Name
-      value: key (1)
+      value: Key
       objectReference: {fileID: 0}
     - target: {fileID: 2983488650028113151, guid: 9d540ab8d3bb0ad9784bc204dc74a1c8, type: 3}
       propertyPath: m_Layer
@@ -39091,8 +39091,8 @@ GameObject:
   - component: {fileID: 1571487505}
   - component: {fileID: 1571487504}
   - component: {fileID: 1571487503}
-  - component: {fileID: 1571487502}
   - component: {fileID: 1571487501}
+  - component: {fileID: 1571487506}
   m_Layer: 6
   m_Name: TelepadLobby
   m_TagString: Untagged
@@ -39123,20 +39123,6 @@ CapsuleCollider:
   m_Height: 2
   m_Direction: 1
   m_Center: {x: 0.000000059604645, y: 1, z: -0.00000008940697}
---- !u!114 &1571487502
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1571487500}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6b0962ec9d5271487b81de3e2710cfb3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::Teleport
-  target: {fileID: 1252396818}
-  roleToAssign: 0
 --- !u!23 &1571487503
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -39209,6 +39195,20 @@ Transform:
   m_Children: []
   m_Father: {fileID: 141192181}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1571487506
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1571487500}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 65fa3290a37e4da47b8cc89a5898f676, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::TeleportLobby
+  target: {fileID: 1252396818}
+  roleToAssign: 0
 --- !u!4 &1572663833 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 5579099416332200016, guid: 125f7a367991145bc920aff2d6ec9647, type: 3}
@@ -44254,8 +44254,8 @@ GameObject:
   - component: {fileID: 1800752984}
   - component: {fileID: 1800752988}
   - component: {fileID: 1800752987}
-  - component: {fileID: 1800752986}
   - component: {fileID: 1800752985}
+  - component: {fileID: 1800752989}
   m_Layer: 6
   m_Name: TelepadLobby
   m_TagString: Untagged
@@ -44301,20 +44301,6 @@ CapsuleCollider:
   m_Height: 2
   m_Direction: 1
   m_Center: {x: 0.000000059604645, y: 1, z: -0.00000008940697}
---- !u!114 &1800752986
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1800752983}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6b0962ec9d5271487b81de3e2710cfb3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::Teleport
-  target: {fileID: 1252396818}
-  roleToAssign: 0
 --- !u!23 &1800752987
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -44372,6 +44358,20 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1800752983}
   m_Mesh: {fileID: 10206, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &1800752989
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1800752983}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 65fa3290a37e4da47b8cc89a5898f676, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::TeleportLobby
+  target: {fileID: 1252396818}
+  roleToAssign: 0
 --- !u!4 &1803030806 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 5579099416332200016, guid: 125f7a367991145bc920aff2d6ec9647, type: 3}
@@ -48900,8 +48900,8 @@ GameObject:
   - component: {fileID: 2061453471}
   - component: {fileID: 2061453475}
   - component: {fileID: 2061453474}
-  - component: {fileID: 2061453473}
   - component: {fileID: 2061453472}
+  - component: {fileID: 2061453476}
   m_Layer: 7
   m_Name: TelepadLobby
   m_TagString: Untagged
@@ -48947,20 +48947,6 @@ CapsuleCollider:
   m_Height: 2
   m_Direction: 1
   m_Center: {x: 0.000000059604645, y: 1, z: -0.00000008940697}
---- !u!114 &2061453473
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2061453470}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6b0962ec9d5271487b81de3e2710cfb3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::Teleport
-  target: {fileID: 1252396818}
-  roleToAssign: 0
 --- !u!23 &2061453474
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -49018,6 +49004,20 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2061453470}
   m_Mesh: {fileID: 10206, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &2061453476
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2061453470}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 65fa3290a37e4da47b8cc89a5898f676, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::TeleportLobby
+  target: {fileID: 1252396818}
+  roleToAssign: 0
 --- !u!4 &2063897570 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 5579099416332200016, guid: 125f7a367991145bc920aff2d6ec9647, type: 3}
