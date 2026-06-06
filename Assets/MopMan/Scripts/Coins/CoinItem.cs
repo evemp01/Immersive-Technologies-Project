@@ -5,7 +5,6 @@ public class CoinItem : MonoBehaviour
 {
     [HideInInspector] public string id;
 
-    [Tooltip("Seconds before this coin reappears after being collected. Set to 0 to disable respawning.")]
     public float respawnDelay = 10f;
 
     void Start()
