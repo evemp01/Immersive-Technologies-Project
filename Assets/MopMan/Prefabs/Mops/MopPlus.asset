@@ -16,6 +16,6 @@ MonoBehaviour:
   tileRange: 2
   neededPasses: 2
   upgradeIndex: 1
-  headColor: {r: 0.25, g: 0.55, b: 1, a: 1}
-  price: 0
+  headColor: {r: 0.9411765, g: 0.9450980, b: 0.1568627, a: 1}
+  price: 20
   icon: {fileID: 0}

@@ -1,8 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-// Keeps track of all the floor tiles and lays them out on a (col,row) grid built from their
-// world positions, so the mop can clean a whole block of tiles around a point.
+// Builds a (col,row) grid from tile world positions so the mop can clean a block around any tile.
 public class FloorManager : MonoBehaviour
 {
     public static FloorManager Instance;

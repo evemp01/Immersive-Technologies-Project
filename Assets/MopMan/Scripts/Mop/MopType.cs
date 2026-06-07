@@ -1,8 +1,5 @@
 using UnityEngine;
 
-// Stats for one mop. Make new ones via Create -> MopMan -> Mop Type. tileRange is how big an
-// area it cleans, neededPasses how many passes a fully dirty tile takes, upgradeIndex its
-// place in the upgrade chain.
 [CreateAssetMenu(fileName = "Mop", menuName = "MopMan/Mop Type")]
 public class MopType : ScriptableObject
 {
@@ -22,7 +19,7 @@ public class MopType : ScriptableObject
     public Color headColor = Color.white;
 
     [Header("Economy")]
-    [Tooltip("Unlock cost. 0 for now, until the coin system is in.")]
+    [Tooltip("Unlock cost in coins.")]
     public int price = 0;
 
     public Sprite icon;

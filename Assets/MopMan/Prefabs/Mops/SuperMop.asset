@@ -10,12 +10,12 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: f1a2b3c4d5e6f70819202122232425f6, type: 3}
-  m_Name: GoKartMop
-  m_EditorClassIdentifier:
-  displayName: Go-Kart Mop
-  tileRange: 3
+  m_Name: SuperMop
+  m_EditorClassIdentifier: 
+  displayName: SuperMop
+  tileRange: 2
   neededPasses: 1
-  upgradeIndex: 3
-  headColor: {r: 1, g: 0.55, b: 0.1, a: 1}
-  price: 0
+  upgradeIndex: 2
+  headColor: {r: 0, g: 0.7647059, b: 0.8901961, a: 1}
+  price: 40
   icon: {fileID: 0}

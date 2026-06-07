@@ -1,9 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-// Goes on the head of the grabbable mop (needs a trigger collider). Tiles only get cleaned
-// while the head is actually moving over them, like a real mop. No XR Toolkit dependency: in
-// VR the mop only moves when held, so checking its speed is enough.
+// Goes on the mop head (needs a trigger collider). Speed-gated: tiles only clean while the head is moving.
 [RequireComponent(typeof(Collider))]
 public class MopScrubber : MonoBehaviour
 {

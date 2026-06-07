@@ -1,7 +1,6 @@
 using UnityEngine;
 
-// One per GlassTile. Holds how dirty the tile is (0 = clean, 1 = fully dirty) and updates its
-// colour through a MaterialPropertyBlock, so every tile can share the single Glass material.
+// One per GlassTile. Tracks dirtiness (0–1) and updates colour via MaterialPropertyBlock.
 [RequireComponent(typeof(Renderer))]
 public class TileState : MonoBehaviour
 {

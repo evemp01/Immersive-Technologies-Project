@@ -2,19 +2,16 @@ using System.Collections.Generic;
 using UnityEngine;
 
 // Sits on the upper player. While they walk, a downward ray finds the tile below and dirties
-// a block around it: the centre tile fastest, the ones around it slower and each at its own
-// speed, so the grime spreads unevenly. Cleaning is the mop's job, not this.
+// a 5x5 block: centre fastest, inner ring (distance 1) medium, outer ring (distance 2) slowest.
 public class FloorWalker : MonoBehaviour
 {
     [Tooltip("Grime per second added to the centre tile while walking.")]
     public float dirtPerSecond = 1f;
 
-    [Tooltip("Size of the dirtied block. 3 = 3x3.")]
-    public int dirtRange = 3;
-
-    [Tooltip("Outer tiles dirty at a random fraction of the centre rate, within this range.")]
-    [Range(0f, 1f)] public float edgeMinFactor = 0.1f;
-    [Range(0f, 1f)] public float edgeMaxFactor = 0.4f;
+    [Header("Ring factors (fraction of dirtPerSecond)")]
+    [Range(0f, 1f)] public float innerFactor = 0.5f;
+    [Range(0f, 1f)] public float outerMinFactor = 0.05f;
+    [Range(0f, 1f)] public float outerMaxFactor = 0.2f;
 
     [Tooltip("Only dirty while the player is moving.")]
     public bool requireMovement = true;
@@ -63,31 +60,28 @@ public class FloorWalker : MonoBehaviour
                 Debug.Log($"[FloorWalker] hit '{hit.collider.name}' but it has no TileState");
         }
         else if (debug)
-        {
             Debug.Log("[FloorWalker] ray hit nothing (check floorMask / rayLength / height)");
-        }
     }
 
     private void DirtyBlock(TileState center, float dt)
     {
         if (FloorManager.Instance == null)
         {
-            center.AddDirt(dirtPerSecond * dt); // no grid yet, just dirty the centre
+            center.AddDirt(dirtPerSecond * dt);
             return;
         }
 
-        FloorManager.Instance.GetBlock(center, dirtRange, block);
+        FloorManager.Instance.GetBlock(center, 5, block);
         foreach (TileState t in block)
         {
-            float factor = t == center
-                ? 1f
-                : Mathf.Lerp(edgeMinFactor, edgeMaxFactor, Hash01(t.col, t.row));
+            int dist = Mathf.Max(Mathf.Abs(t.col - center.col), Mathf.Abs(t.row - center.row));
+            float factor = dist == 0 ? 1f
+                         : dist == 1 ? innerFactor
+                         : Mathf.Lerp(outerMinFactor, outerMaxFactor, Hash01(t.col, t.row));
             t.AddDirt(dirtPerSecond * factor * dt);
         }
     }
 
-    // Fixed per-tile value from its grid coords, so each tile keeps the same dirtying speed
-    // instead of flickering every frame.
     private static float Hash01(int c, int r)
     {
         unchecked
