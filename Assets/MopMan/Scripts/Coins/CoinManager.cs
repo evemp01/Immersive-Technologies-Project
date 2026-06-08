@@ -13,6 +13,9 @@ public class CoinManager : MonoBehaviour
     private NetworkContext context;
     private Dictionary<string, CoinItem> coins = new Dictionary<string, CoinItem>();
     private int collected = 0;
+    private int spent = 0;
+
+    public int GetBalance() => collected - spent;
 
     void Awake() => Instance = this;
     void Start()
@@ -23,17 +26,12 @@ public class CoinManager : MonoBehaviour
 
     private IEnumerator InitUI()
     {
-        yield return null; // wait one frame so all CoinItems finish their Start()
-        OnCounterUpdate?.Invoke($"{collected}");
+        yield return null;
+        OnCounterUpdate?.Invoke($"{GetBalance()}");
     }
 
     public void Register(CoinItem coin) => coins[coin.id] = coin;
 
-    // Returns how many coins have been collected so far
-    public int GetTotalCollected() => collected;
-
-    // Both local touches and network messages route through here
-    // CoinManager is always active, so it safely owns the respawn coroutine
     public void Collect(string id, float respawnDelay = 0f, bool sendNetworkMessage = true)
     {
         if (coins.TryGetValue(id, out CoinItem coin) && coin.gameObject.activeSelf)
@@ -41,13 +39,23 @@ public class CoinManager : MonoBehaviour
             coin.gameObject.SetActive(false);
             collected++;
 
-            OnCounterUpdate?.Invoke($"{collected}");
+            OnCounterUpdate?.Invoke($"{GetBalance()}");
 
-            if (sendNetworkMessage) context.SendJson(new Message { id = id, respawn = false });
+            if (sendNetworkMessage) context.SendJson(new Message { id = id });
 
             if (respawnDelay > 0f)
                 StartCoroutine(RespawnAfterDelay(id, respawnDelay));
         }
+    }
+
+    // Returns false if balance is insufficient. Syncs the spend to the other client.
+    public bool Spend(int amount, bool sendNetworkMessage = true)
+    {
+        if (GetBalance() < amount) return false;
+        spent += amount;
+        OnCounterUpdate?.Invoke($"{GetBalance()}");
+        if (sendNetworkMessage) context.SendJson(new Message { spendAmount = amount });
+        return true;
     }
 
     private IEnumerator RespawnAfterDelay(string id, float delay)
@@ -61,18 +69,16 @@ public class CoinManager : MonoBehaviour
         if (coins.TryGetValue(id, out CoinItem coin) && !coin.gameObject.activeSelf)
         {
             coin.gameObject.SetActive(true);
-
-            OnCounterUpdate?.Invoke($"{collected}");
-
             if (sendNetworkMessage) context.SendJson(new Message { id = id, respawn = true });
         }
     }
 
-    // Ubiq network receiver
     public void ProcessMessage(ReferenceCountedSceneGraphMessage msg)
     {
         Message m = msg.FromJson<Message>();
-        if (m.respawn)
+        if (m.spendAmount > 0)
+            Spend(m.spendAmount, sendNetworkMessage: false);
+        else if (m.respawn)
             Respawn(m.id, false);
         else
             Collect(m.id, sendNetworkMessage: false);
@@ -82,5 +88,6 @@ public class CoinManager : MonoBehaviour
     {
         public string id;
         public bool respawn;
+        public int spendAmount;
     }
 }
