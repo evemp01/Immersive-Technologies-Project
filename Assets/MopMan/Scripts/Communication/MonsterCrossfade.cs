@@ -2,16 +2,27 @@ using UnityEngine;
 
 public class MonsterCrossfade : MonoBehaviour
 {
-    public AudioSource voiceSource;    //Hope that Ubiq auto assigns it as by AudioHook
-    public AudioSource staticSource;  
+    public AudioSource voiceSource;    //ubiq hijacked communication channel
+    public AudioSource staticSource;   //Monster static noise
 
-    public float maxVoiceDistance = 30f; //Maximum voice distance
+    public float maxVoiceDistance = 10f; //Maximum communication distance
 
-    public float maxMonsterDistance = 15f;
+    public float maxMonsterDistance = 5f;  //Maximum monster effect distance
     public float maxYDifference = 2.5f;
+
+    //Effects for monster creepiness
+    [Range(0f, 1f)] public float maxDistortion = 0.6f;
+    [Range(0f, 0.5f)] public float pitchWobbleAmt = 0.15f;
 
     private Transform localPlayer;
     private Transform monster;
+
+    private AudioLowPassFilter lowPass;
+    private AudioHighPassFilter highPass;
+    private AudioDistortionFilter distortion;
+
+    private float pitchTimer;
+    private float targetPitch = 1f;
 
     void Start()
     {
@@ -29,17 +40,35 @@ public class MonsterCrossfade : MonoBehaviour
         }
     }
 
+    public void AssignUbiqVoiceSource(AudioSource ubiqSource)
+    {
+        voiceSource = ubiqSource;
+        if (voiceSource == null) return;
+
+        lowPass = voiceSource.gameObject.GetComponent<AudioLowPassFilter>() ?? voiceSource.gameObject.AddComponent<AudioLowPassFilter>();
+        highPass = voiceSource.gameObject.GetComponent<AudioHighPassFilter>() ?? voiceSource.gameObject.AddComponent<AudioHighPassFilter>();
+        distortion = voiceSource.gameObject.GetComponent<AudioDistortionFilter>() ?? voiceSource.gameObject.AddComponent<AudioDistortionFilter>();
+
+        highPass.cutoffFrequency = 1000f;
+        lowPass.cutoffFrequency = 4000f;
+    }
+
     void Update()
     {
         if (localPlayer == null) return;
 
         if (voiceSource != null) voiceSource.spatialBlend = 0f;
-        voiceSource.spatialBlend = 0f;
-        if (staticSource != null) staticSource.spatialBlend = 0f;
 
-        float distanceTraGiocatori = Vector3.Distance(transform.position, localPlayer.position);
-        float volumeVoiceBase = 1f - Mathf.Clamp01(distanceTraGiocatori / maxVoiceDistance);
+        //ignore vertical distance for players communications
+        Vector3 posGiocatoreReteXZ = new Vector3(transform.position.x, 0f, transform.position.z);
+        Vector3 posMioGiocatoreXZ = new Vector3(localPlayer.position.x, 0f, localPlayer.position.z);
 
+        float distanceTraGiocatori = Vector3.Distance(posGiocatoreReteXZ, posMioGiocatoreXZ);
+
+        float voiceRatio = 1f - Mathf.Clamp01(distanceTraGiocatori / maxVoiceDistance);
+        float volumeVoiceBase = voiceRatio * voiceRatio;
+
+        //Calculate monster infleunce
         float monsterInfluence = 0f;
         if (monster != null)
         {
@@ -51,13 +80,36 @@ public class MonsterCrossfade : MonoBehaviour
             }
         }
 
-        voiceSource.volume = volumeVoiceBase * (1f - monsterInfluence);
-
-        if (staticSource != null) staticSource.volume = monsterInfluence;
-    }
-
-    public void AssignUbiqVoiceSource(AudioSource ubiqSource)
-    {
-        voiceSource = ubiqSource;
+        //Horror effectes
+        if (voiceSource != null && distortion != null && lowPass != null)
+        {
+            //Reduce voice volume 
+            voiceSource.volume = volumeVoiceBase * (1f - monsterInfluence);
+            distortion.distortionLevel = monsterInfluence * maxDistortion;
+            //Remove frequencies
+            lowPass.cutoffFrequency = Mathf.Lerp(4000f, 1500f, monsterInfluence);
+            highPass.cutoffFrequency = Mathf.Lerp(1000f, 1200f, monsterInfluence);
+             //Wobble effect
+            if (monsterInfluence > 0.1f)
+            {
+                pitchTimer -= Time.deltaTime;
+                if (pitchTimer <= 0f)
+                {
+                    float wobble = pitchWobbleAmt * monsterInfluence;
+                    targetPitch = 1f + Random.Range(-wobble, wobble);
+                    pitchTimer = Random.Range(0.03f, 0.1f);
+                }
+                voiceSource.pitch = Mathf.Lerp(voiceSource.pitch, targetPitch, Time.deltaTime * 15f);
+            }
+            else
+            {
+                voiceSource.pitch = 1f;
+            }
+        }
+        //Increase monster noise with quadratic scale
+        if (staticSource != null)
+        {
+            staticSource.volume = monsterInfluence * monsterInfluence;
+        }
     }
 }
