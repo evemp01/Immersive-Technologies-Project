@@ -5,6 +5,9 @@ TagManager:
   serializedVersion: 3
   tags:
   - DesktopPlayer
+  - Teleport
+  - CinemachineTarget
+  - Monster
   layers:
   - Default
   - TransparentFX
