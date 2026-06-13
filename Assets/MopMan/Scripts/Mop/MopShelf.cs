@@ -5,6 +5,10 @@ using UnityEngine;
 public class MopShelf : MonoBehaviour
 {
     [Header("The mop in the level")]
+
+    [Header("HUD")]
+    public MopCounterUI mopCounterUI;
+
     [Tooltip("Root GameObject of the mop — hidden at start, shown on first purchase.")]
     public GameObject sceneMopRoot;
 
@@ -24,6 +28,8 @@ public class MopShelf : MonoBehaviour
     {
         if (sceneMopRoot != null)
             sceneMopRoot.SetActive(false);
+
+        mopCounterUI?.UpdateMop(null);
     }
 
     public bool CanAfford(MopType mop) =>
@@ -55,6 +61,10 @@ public class MopShelf : MonoBehaviour
         if (sceneMop != null) sceneMop.mopType = mop;
         if (sceneMopHeadRenderer != null && mop != null)
             sceneMopHeadRenderer.material.color = mop.headColor;
+
+        if (mopCounterUI == null)
+            mopCounterUI = FindObjectOfType<MopCounterUI>();
+        mopCounterUI?.UpdateMop(mop);
     }
 
     public void NotifyEquipped(MopSlot slot) => equippedSlot = slot;
