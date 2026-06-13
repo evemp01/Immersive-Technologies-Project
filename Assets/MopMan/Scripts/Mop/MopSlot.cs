@@ -37,7 +37,10 @@ public class MopSlot : MonoBehaviour
         UpdateVisual();
     }
 
-    public void Interact(MopController controller)
+    // Called from XRSimpleInteractable.selectEntered in the Inspector (VR path).
+    public void InteractVR() => Interact(null);
+
+    public void Interact(MopController controller = null)
     {
         if (mopType == null) return;
 
