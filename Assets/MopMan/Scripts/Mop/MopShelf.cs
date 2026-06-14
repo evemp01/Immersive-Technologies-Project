@@ -84,4 +84,13 @@ public class MopShelf : MonoBehaviour
     }
 
     public void NotifyEquipped(MopSlot slot) => equippedSlot = slot;
+
+    public void ResetMop()
+    {
+        HighestUnlockedIndex = -1;
+        equippedSlot = null;
+        foreach (MopSlot slot in slots) slot.ResetUnlock();
+        if (sceneMopRoot != null) sceneMopRoot.SetActive(false);
+        OnMopEquipped?.Invoke(null);
+    }
 }

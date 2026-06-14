@@ -66,6 +66,14 @@ public class TileState : MonoBehaviour
         ApplyVisual();
     }
 
+    public void ResetClean()
+    {
+        firstPassDone = false;
+        dirtBlockedUntil = 0f;
+        cleanBlockedUntil = 0f;
+        SetDirtiness(0f);
+    }
+
     private void ApplyVisual()
     {
         if (rend == null) return;

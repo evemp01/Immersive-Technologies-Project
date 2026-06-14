@@ -10,10 +10,13 @@ public class KeyManager : MonoBehaviour
     
     public UnityEvent<string> OnCounterUpdate;
     public UnityEvent OnDoorUnlock;
+    public UnityEvent OnDoorReset;
 
     private NetworkContext context;
     private Dictionary<string, KeyItem> keys = new Dictionary<string, KeyItem>();
     private int collected = 0;
+
+    public bool AllCollected => keys.Count > 0 && collected >= keys.Count;
 
     void Awake() => Instance = this;
     void Start()
@@ -51,8 +54,16 @@ public class KeyManager : MonoBehaviour
         }
     }
 
+    public void ResetKeys()
+    {
+        foreach (KeyItem key in keys.Values) key.gameObject.SetActive(true);
+        collected = 0;
+        OnDoorReset?.Invoke();
+        OnCounterUpdate?.Invoke($"<sprite index=10> {collected}/{keys.Count}");
+    }
+
     // Ubiq network receiver
-    public void ProcessMessage(ReferenceCountedSceneGraphMessage msg) 
+    public void ProcessMessage(ReferenceCountedSceneGraphMessage msg)
         => Collect(msg.FromJson<Message>().id, false);
 
     private struct Message { public string id; }

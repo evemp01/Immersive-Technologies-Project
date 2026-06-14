@@ -76,6 +76,11 @@ public class FloorManager : MonoBehaviour
         return gap == float.MaxValue ? 1f : gap;
     }
 
+    public void ResetFloor()
+    {
+        foreach (TileState t in tiles) t.ResetClean();
+    }
+
     // Tile under a world position, or null if it falls outside the grid.
     public TileState GetTileAt(Vector3 worldPos)
     {

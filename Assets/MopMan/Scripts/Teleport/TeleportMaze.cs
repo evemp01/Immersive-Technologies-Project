@@ -47,8 +47,11 @@ public class Teleport : MonoBehaviour
             playerRoot.rotation = Quaternion.LookRotation(Vector3.left);
 
             if (cc != null) cc.enabled = true;
-            
+
             Debug.Log("Player teleported and assigned role: " + roleToAssign.ToString());
+
+            // Hide the start pad once used; GameManager re-enables it on restart.
+            gameObject.SetActive(false);
         }
     }
 }

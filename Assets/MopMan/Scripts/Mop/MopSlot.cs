@@ -37,6 +37,13 @@ public class MopSlot : MonoBehaviour
         UpdateVisual();
     }
 
+    public void ResetUnlock()
+    {
+        Unlocked = startsUnlocked;
+        if (Unlocked && shelf != null) shelf.MarkUnlocked(mopType);
+        UpdateVisual();
+    }
+
     // Called from XRSimpleInteractable.selectEntered in the Inspector (VR path).
     public void InteractVR() => Interact(null);
 
