@@ -323,6 +323,8 @@ public class MonsterPatrol : MonoBehaviour
             TeleportLocalPlayer(startingRoomVR, startingRoomDesktop);
 
             if (isHost && agent != null) agent.isStopped = true;
+
+            GameManager.Instance?.NotifyGameOver();
         }
     }
 

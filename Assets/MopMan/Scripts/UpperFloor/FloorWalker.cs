@@ -13,8 +13,9 @@ public class FloorWalker : MonoBehaviour
     [Range(0f, 1f)] public float outerMinFactor = 0.05f;
     [Range(0f, 1f)] public float outerMaxFactor = 0.2f;
 
-    [Tooltip("Only dirty while the player is moving.")]
-    public bool requireMovement = true;
+    [Tooltip("Dirt rate (fraction of dirtPerSecond) and max dirtiness while the player stands still.")]
+    public float stillDirtFactor = 0.3f;
+    [Range(0f, 1f)] public float stillMaxDirtiness = 0.85f;
 
     [Tooltip("Speed (m/s) above which the player counts as walking.")]
     public float moveThreshold = 0.05f;
@@ -45,7 +46,9 @@ public class FloorWalker : MonoBehaviour
                             / Mathf.Max(Time.deltaTime, 1e-5f);
         lastPos = pos;
 
-        if (requireMovement && planarSpeed < moveThreshold) return;
+        bool moving = planarSpeed >= moveThreshold;
+        float rate = moving ? dirtPerSecond : dirtPerSecond * stillDirtFactor;
+        float maxDirt = moving ? 1f : stillMaxDirtiness;
 
         Vector3 rayOrigin = pos + Vector3.up * rayStartHeight;
         float dist = rayLength + rayStartHeight;
@@ -55,7 +58,7 @@ public class FloorWalker : MonoBehaviour
         {
             TileState center = hit.collider.GetComponentInParent<TileState>();
             if (center != null)
-                DirtyBlock(center, Time.deltaTime);
+                DirtyBlock(center, Time.deltaTime, rate, maxDirt);
             else if (debug)
                 Debug.Log($"[FloorWalker] hit '{hit.collider.name}' but it has no TileState");
         }
@@ -63,11 +66,11 @@ public class FloorWalker : MonoBehaviour
             Debug.Log("[FloorWalker] ray hit nothing (check floorMask / rayLength / height)");
     }
 
-    private void DirtyBlock(TileState center, float dt)
+    private void DirtyBlock(TileState center, float dt, float rate, float maxDirt)
     {
         if (FloorManager.Instance == null)
         {
-            center.AddDirt(dirtPerSecond * dt);
+            center.AddDirt(rate * dt, maxDirt);
             return;
         }
 
@@ -78,7 +81,7 @@ public class FloorWalker : MonoBehaviour
             float factor = dist == 0 ? 1f
                          : dist == 1 ? innerFactor
                          : Mathf.Lerp(outerMinFactor, outerMaxFactor, Hash01(t.col, t.row));
-            t.AddDirt(dirtPerSecond * factor * dt);
+            t.AddDirt(rate * factor * dt, maxDirt);
         }
     }
 

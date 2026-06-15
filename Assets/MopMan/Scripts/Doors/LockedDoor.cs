@@ -45,6 +45,13 @@ public class LockedDoor : MonoBehaviour
         if (doorRenderer != null) doorRenderer.material.color = Color.green;
     }
 
+    public void LockDoor()
+    {
+        isUnlocked = false;
+        targetPosition = closedPosition;
+        if (doorRenderer != null) doorRenderer.material.color = originalColor;
+    }
+
     void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("Player") || other.CompareTag("DesktopPlayer"))

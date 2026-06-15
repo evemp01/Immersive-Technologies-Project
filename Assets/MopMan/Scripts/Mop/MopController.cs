@@ -8,8 +8,7 @@ public class MopController : MonoBehaviour
     public InputActionReference vrTriggerAction;
 
     [Header("Desktop input (editor testing only)")]
-    public Key actionKey = Key.Space;
-    public bool useMouse = true;
+    public Key actionKey = Key.R;
 
     [HideInInspector] public MopSlot currentSlot;
 
@@ -21,10 +20,8 @@ public class MopController : MonoBehaviour
         if (currentSlot == null) return;
 
         var kb = Keyboard.current;
-        var mouse = Mouse.current;
         bool pressed = (vrTriggerAction != null && vrTriggerAction.action.WasPerformedThisFrame())
-                       || (kb != null && kb[actionKey].wasPressedThisFrame)
-                       || (useMouse && mouse != null && mouse.leftButton.wasPressedThisFrame);
+                       || (kb != null && kb[actionKey].wasPressedThisFrame);
 
         if (pressed) currentSlot.Interact(this);
     }
