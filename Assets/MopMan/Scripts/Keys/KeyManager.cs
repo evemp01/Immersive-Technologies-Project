@@ -28,7 +28,7 @@ public class KeyManager : MonoBehaviour
     private IEnumerator InitUI()
     {
         yield return null; // wait one frame so all KeyItems finish their Start()
-        OnCounterUpdate?.Invoke($"<sprite index=10> {collected}/{keys.Count}");
+        OnCounterUpdate?.Invoke($"<voffset=0.3em><sprite name=\"key\"></voffset> {collected}/{keys.Count}");
     }
     public void Register(KeyItem key) => keys[key.id] = key;
 
@@ -41,12 +41,12 @@ public class KeyManager : MonoBehaviour
             collected++;
             
             if (collected >= keys.Count) {OnDoorUnlock?.Invoke();
-            OnCounterUpdate?.Invoke($"<sprite index=3> {collected}/{keys.Count}");
+            OnCounterUpdate?.Invoke($"<voffset=0.3em><sprite name=\"key\"></voffset> {collected}/{keys.Count}");
             
             }
             else
             {
-            OnCounterUpdate?.Invoke($"<sprite index=2> {collected}/{keys.Count}");
+            OnCounterUpdate?.Invoke($"<voffset=0.3em><sprite name=\"key\"></voffset> {collected}/{keys.Count}");
                 
             }
 

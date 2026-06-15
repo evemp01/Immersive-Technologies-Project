@@ -7,6 +7,10 @@ using UnityEngine.Events;
 public class MopShelf : MonoBehaviour
 {
     [Header("The mop in the level")]
+
+    [Header("HUD")]
+    public MopCounterUI mopCounterUI;
+
     [Tooltip("Root GameObject of the mop — hidden at start, shown on first purchase.")]
     public GameObject sceneMopRoot;
 
@@ -36,6 +40,23 @@ public class MopShelf : MonoBehaviour
         slots = GetComponentsInChildren<MopSlot>();
         if (sceneMopRoot != null)
             sceneMopRoot.SetActive(false);
+        
+        mopCounterUI?.UpdateMop(null);
+    }
+
+    public void ProcessMessage(ReferenceCountedSceneGraphMessage msg)
+    {
+        int index = msg.FromJson<Message>().upgradeIndex;
+        foreach (var slot in slots)
+            if (slot.mopType != null && slot.mopType.upgradeIndex == index)
+            {
+                // Equipping a mop means it (and everything below it) is unlocked
+                // for this client too, so both players share the same shop state.
+                MarkUnlocked(slot.mopType);
+                RefreshSlotLocks();
+                Equip(slot.mopType, sendNetworkMessage: false);
+                return;
+            }
     }
 
     public void ProcessMessage(ReferenceCountedSceneGraphMessage msg)
@@ -89,6 +110,10 @@ public class MopShelf : MonoBehaviour
         if (sceneMop != null) sceneMop.mopType = mop;
         if (sceneMopHeadRenderer != null && mop != null)
             sceneMopHeadRenderer.material.color = mop.headColor;
+
+        if (mopCounterUI == null)
+            mopCounterUI = FindObjectOfType<MopCounterUI>();
+        mopCounterUI?.UpdateMop(mop);
         OnMopEquipped?.Invoke(mop);
         if (sendNetworkMessage && mop != null)
             context.SendJson(new Message { upgradeIndex = mop.upgradeIndex });

@@ -27,7 +27,7 @@ public class CoinManager : MonoBehaviour
     private IEnumerator InitUI()
     {
         yield return null;
-        OnCounterUpdate?.Invoke($"{GetBalance()}");
+        OnCounterUpdate?.Invoke($"<voffset=0.3em><sprite name=\"coin\"></voffset> {GetBalance()}");
     }
 
     public void Register(CoinItem coin) => coins[coin.id] = coin;
@@ -39,7 +39,7 @@ public class CoinManager : MonoBehaviour
             coin.gameObject.SetActive(false);
             collected++;
 
-            OnCounterUpdate?.Invoke($"{GetBalance()}");
+            OnCounterUpdate?.Invoke($"<voffset=0.3em><sprite name=\"coin\"></voffset> {GetBalance()}");
 
             if (sendNetworkMessage) context.SendJson(new Message { id = id });
 
@@ -53,7 +53,7 @@ public class CoinManager : MonoBehaviour
     {
         if (GetBalance() < amount) return false;
         spent += amount;
-        OnCounterUpdate?.Invoke($"{GetBalance()}");
+        OnCounterUpdate?.Invoke($"<voffset=0.3em><sprite name=\"coin\"></voffset> {GetBalance()}");
         if (sendNetworkMessage) context.SendJson(new Message { spendAmount = amount });
         return true;
     }
