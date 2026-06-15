@@ -10,6 +10,9 @@ public class MonsterPatrol : MonoBehaviour
     public int playerLives = 3;
     private int startingLives; 
 
+    [Header("HUD")]
+    public LivesCounterUI livesUI;
+
     [Header("Patrol Settings")]
     public Transform[] waypoints;
     public float patrolSpeed = 2f;
@@ -57,6 +60,7 @@ public class MonsterPatrol : MonoBehaviour
     void Start()
     {
         startingLives = playerLives; 
+        UpdateLivesUI(); 
         agent = GetComponent<NavMeshAgent>();
 
         context = NetworkScene.Register(this);
@@ -134,6 +138,7 @@ public class MonsterPatrol : MonoBehaviour
             if (playerLives > data.livesLeft)
             {
                 playerLives = data.livesLeft;
+                UpdateLivesUI(); 
                 lastHitTime = Time.time; 
                 HandleLifeLossLocally();
             }
@@ -331,6 +336,7 @@ public class MonsterPatrol : MonoBehaviour
         {
             lastHitTime = Time.time;
             playerLives--;
+            UpdateLivesUI(); 
             
             HandleLifeLossLocally();
 
@@ -345,9 +351,18 @@ public class MonsterPatrol : MonoBehaviour
         }
     }
 
+    void UpdateLivesUI()
+    {
+        if (livesUI == null)
+            livesUI = FindObjectOfType<LivesCounterUI>();
+        if (livesUI != null)
+            livesUI.SetLives(playerLives, startingLives);
+    }
+
     public void ResetMonster()
     {
         playerLives = startingLives;
+        UpdateLivesUI(); 
         lastHitTime = 0f; 
         
         if (isHost)
