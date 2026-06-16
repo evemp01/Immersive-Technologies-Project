@@ -65,6 +65,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 71b209e891fc08f0abf202ab878c2f43, type: 3}
       insertIndex: -1
       addedObject: {fileID: 7721801704168556849}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 71b209e891fc08f0abf202ab878c2f43, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 6302207233898739404}
   m_SourcePrefab: {fileID: 100100000, guid: 71b209e891fc08f0abf202ab878c2f43, type: 3}
 --- !u!1 &2983488650028113151 stripped
 GameObject:
@@ -90,7 +93,7 @@ SphereCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Radius: 0.32
+  m_Radius: 0.4
   m_Center: {x: -0.0020054504, y: 0.11012194, z: 0}
 --- !u!114 &7028793545103013792
 MonoBehaviour:
@@ -127,3 +130,17 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &6302207233898739404
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2983488650028113151}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6d57251f6440a2f4186021f7ee826b94, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::KeySound
+  PickingUpSound: {fileID: 8300000, guid: 0e4afe86ad43d9247bf9851db1028e04, type: 3}
+  volume: 0.15
