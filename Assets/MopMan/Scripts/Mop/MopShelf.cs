@@ -59,21 +59,6 @@ public class MopShelf : MonoBehaviour
             }
     }
 
-    public void ProcessMessage(ReferenceCountedSceneGraphMessage msg)
-    {
-        int index = msg.FromJson<Message>().upgradeIndex;
-        foreach (var slot in slots)
-            if (slot.mopType != null && slot.mopType.upgradeIndex == index)
-            {
-                // Equipping a mop means it (and everything below it) is unlocked
-                // for this client too, so both players share the same shop state.
-                MarkUnlocked(slot.mopType);
-                RefreshSlotLocks();
-                Equip(slot.mopType, sendNetworkMessage: false);
-                return;
-            }
-    }
-
     public bool CanAfford(MopType mop) =>
         mop != null && CoinManager.Instance != null && CoinManager.Instance.GetBalance() >= mop.price;
 
