@@ -80,6 +80,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: fcf4973cb81932b5c89db25d932253ac, type: 3}
       insertIndex: -1
       addedObject: {fileID: 4306019675082445168}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: fcf4973cb81932b5c89db25d932253ac, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 6118128579380116743}
   m_SourcePrefab: {fileID: 100100000, guid: fcf4973cb81932b5c89db25d932253ac, type: 3}
 --- !u!1 &5009083122258713325 stripped
 GameObject:
@@ -105,8 +108,8 @@ SphereCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Radius: 0.19999999
-  m_Center: {x: 0, y: 0.19999999, z: 0}
+  m_Radius: 0.4
+  m_Center: {x: 0, y: 0.20000002, z: -0.000000014901161}
 --- !u!114 &327680307690815738
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -120,6 +123,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CoinItem
   id: 
+  respawnDelay: 10
 --- !u!95 &1172115279596100740
 Animator:
   serializedVersion: 7
@@ -157,3 +161,17 @@ MonoBehaviour:
   rotateSpeed: 90
   floatHeight: 0.2
   floatSpeed: 1
+--- !u!114 &6118128579380116743
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5009083122258713325}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0e8e77079eada6845bb9aba3c36e26b2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::CoinSound
+  PickingUpSound: {fileID: 8300000, guid: 76fa86afd3ec73d4a9cb191152e556ee, type: 3}
+  volume: 0.15
