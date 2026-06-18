@@ -59,7 +59,7 @@ public class KeyManager : MonoBehaviour
         foreach (KeyItem key in keys.Values) key.gameObject.SetActive(true);
         collected = 0;
         OnDoorReset?.Invoke();
-        OnCounterUpdate?.Invoke($"<sprite index=10> {collected}/{keys.Count}");
+        OnCounterUpdate?.Invoke($"<voffset=0.3em><sprite name=\"key\"></voffset> {collected}/{keys.Count}");
     }
 
     // Ubiq network receiver
