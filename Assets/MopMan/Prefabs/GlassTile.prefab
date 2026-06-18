@@ -521,7 +521,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: c7de8a1534fe2f24daed6e7a7e936cee, type: 2}
+  - {fileID: 2100000, guid: 8c2cfaf7a96770efda8e2c0de7bf660d, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -601,7 +601,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::TileState
   dirtiness: 0
-  cleanColor: {r: 0, g: 0.7921569, b: 1, a: 0.16862746}
+  cleanColor: {r: 1, g: 1, b: 1, a: 0}
   dirtyColor: {r: 0.33, g: 0.28, b: 0.19, a: 0.972549}
+  cleanCooldown: 1
   col: -1
   row: -1
