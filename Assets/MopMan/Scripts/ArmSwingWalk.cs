@@ -11,9 +11,9 @@ public class ArmSwingWalk : MonoBehaviour
     public Transform mainCamera;
 
     [Header("Physic limits")]
-    public float acceleration    = 40f;
+    public float acceleration    = 20f;
     public float drag            = 5f;
-    public float maxSpeed        = 3.5f;
+    public float maxSpeed        = 3f;
     public float minMovementThreshold = 0.005f;
 
     [Header("Alternation")]
@@ -25,8 +25,8 @@ public class ArmSwingWalk : MonoBehaviour
     public InputActionProperty leftPrimaryButton;
     public InputActionProperty rightPrimaryButton;
 
-    private float prevLeftZ;
-    private float prevRightZ;
+    private float prevLeftY;
+    private float prevRightY;
     private bool  prevLeftMoving;
     private bool  prevRightMoving;
 
@@ -44,8 +44,8 @@ public class ArmSwingWalk : MonoBehaviour
         if (characterController == null)
             characterController = GetComponent<CharacterController>();
 
-        prevLeftZ  = xrOrigin.InverseTransformPoint(leftController.position).z;
-        prevRightZ = xrOrigin.InverseTransformPoint(rightController.position).z;
+        prevLeftY  = xrOrigin.InverseTransformPoint(leftController.position).y;
+        prevRightY = xrOrigin.InverseTransformPoint(rightController.position).y;
     }
 
     void OnEnable()
@@ -62,11 +62,11 @@ public class ArmSwingWalk : MonoBehaviour
 
     void Update()
     {
-        float currentLeftZ  = xrOrigin.InverseTransformPoint(leftController.position).z;
-        float currentRightZ = xrOrigin.InverseTransformPoint(rightController.position).z;
+        float currentLeftY  = xrOrigin.InverseTransformPoint(leftController.position).y;
+        float currentRightY = xrOrigin.InverseTransformPoint(rightController.position).y;
 
-        float leftDelta  = Mathf.Abs(currentLeftZ  - prevLeftZ);
-        float rightDelta = Mathf.Abs(currentRightZ - prevRightZ);
+        float leftDelta  = Mathf.Abs(currentLeftY  - prevLeftY);
+        float rightDelta = Mathf.Abs(currentRightY - prevRightY);
 
         bool leftMoving  = leftDelta  > minMovementThreshold;
         bool rightMoving = rightDelta > minMovementThreshold;
@@ -142,8 +142,8 @@ public class ArmSwingWalk : MonoBehaviour
         characterController.Move(move * Time.deltaTime);
 
         //Update prev
-        prevLeftZ = currentLeftZ;
-        prevRightZ = currentRightZ;
+        prevLeftY = currentLeftY;
+        prevRightY = currentRightY;
         prevLeftMoving = leftMoving;
         prevRightMoving = rightMoving;
     }
