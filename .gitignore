@@ -106,5 +106,8 @@ InitTestScene*.unity*
 /[Aa]ssets/[Ss]ceneDependencyCache*
 
 # Manually added ignores below this line
-apks/
+apks/*
+!apks/ANDROID/
+apks/ANDROID/*
+!apks/ANDROID/MopMan.apk
 .vscode/
